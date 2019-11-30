@@ -1,4 +1,4 @@
-package com.example.muslim_app
+package com.reon.muslim_app
 
 import android.os.Bundle
 

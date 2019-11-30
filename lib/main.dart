@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.light,
           primaryColor: Colors.white,
         ),
-        title: 'Flutter Demo',
+        title: 'Muslim App',
         home: HomePage(),
       ),
     );

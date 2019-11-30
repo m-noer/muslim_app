@@ -50,19 +50,121 @@ class _SurahPageState extends State<SurahPage> {
 
   @override
   Widget build(BuildContext context) {
-    final salat = Provider.of<SurahProvider>(context);
     return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        elevation: 0,
+        title: Text('Al-Quran'),
+      ),
       body: SafeArea(
         child: Consumer<SurahProvider>(
           builder: (ctx, data, _) => ListView.builder(
+            padding: EdgeInsets.all(10.0),
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             itemCount: data.items.length,
-            itemBuilder: (ctx, i) => Text(
-              '${data.items[i].asma}',
-              style: TextStyle(fontSize: 26.0),
+            itemBuilder: (ctx, i) => CardSurah(
+              nama: data.items[i].nama,
+              asma: data.items[i].asma,
+              ayat: data.items[i].ayat,
+              arti: data.items[i].arti,
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class CardSurah extends StatelessWidget {
+  const CardSurah({
+    Key key,
+    this.nama,
+    this.asma,
+    this.ayat,
+    this.arti,
+  }) : super(key: key);
+
+  final String nama;
+  final String asma;
+  final int ayat;
+  final String arti;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        margin: EdgeInsets.only(bottom: 10.0),
+        height: 110,
+        child: Stack(
+          children: <Widget>[
+            InkWell(
+              onTap: () => print(nama),
+              child: Card(
+                elevation: 2,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0)),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 50.0, top: 20.0, right: 20.0, bottom: 20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            nama,
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xffFFA64D),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          Text(
+                            arti,
+                            style: TextStyle(
+                              fontSize: 16.0,
+                            ),
+                          ),
+                          // Text('$ayat'),
+                        ],
+                      ),
+                      Text(
+                        asma,
+                        style: TextStyle(
+                          fontSize: 24.0,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xffFFA64D),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              child: Container(
+                width: 35.0,
+                height: 110.0,
+                // color: Colors.orange,
+                child: Card(
+                  elevation: 6,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(20.0),
+                          topLeft: Radius.circular(20.0))),
+                  color: Color(0xffFFA64D),
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );

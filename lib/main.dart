@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:muslim_app/provider/audio_provider.dart';
+import 'package:muslim_app/provider/aya_provider.dart';
 import 'package:muslim_app/provider/salat_provider.dart';
 import 'package:muslim_app/provider/surah_provider.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +28,12 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<SurahProvider>(
           create: (_) => SurahProvider(),
+        ),
+        ChangeNotifierProvider<AyaProvider>(
+          create: (_) => AyaProvider(),
+        ),
+        ChangeNotifierProvider<AudioProvider>(
+          create: (_) => AudioProvider(),
         )
       ],
       child: MaterialApp(

@@ -130,8 +130,20 @@ class _HomePageState extends State<HomePage> {
               GestureDetector(
                 onTap: () {
                   _getCurrentLocation();
-                  print('object');
-                  Provider.of<SalatProvider>(context).getSalat(_currentAddress);
+
+                  Future.delayed(Duration(seconds: 5)).then((_) {
+                    setState(() {
+                      loading = true;
+                    });
+
+                    Provider.of<SalatProvider>(context, listen: false)
+                        .getSalat(_currentAddress)
+                        .then((_) {
+                      setState(() {
+                        loading = false;
+                      });
+                    });
+                  });
                 },
                 child: Row(
                   children: <Widget>[

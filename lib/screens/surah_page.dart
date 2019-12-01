@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:muslim_app/provider/salat_provider.dart';
 import 'package:muslim_app/provider/surah_provider.dart';
+import 'package:muslim_app/screens/aya_page.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -50,28 +51,31 @@ class _SurahPageState extends State<SurahPage> {
 
   @override
   Widget build(BuildContext context) {
+    final data = Provider.of<SurahProvider>(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
         title: Text('Al-Quran'),
       ),
-      body: SafeArea(
-        child: Consumer<SurahProvider>(
-          builder: (ctx, data, _) => ListView.builder(
-            padding: EdgeInsets.all(10.0),
-            scrollDirection: Axis.vertical,
-            shrinkWrap: true,
-            itemCount: data.items.length,
-            itemBuilder: (ctx, i) => CardSurah(
-              nama: data.items[i].nama,
-              asma: data.items[i].asma,
-              ayat: data.items[i].ayat,
-              arti: data.items[i].arti,
+      body: loading
+          ? Text('loading')
+          : Container(
+              child: ListView.builder(
+                padding: EdgeInsets.all(10.0),
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: data.items.length,
+                itemBuilder: (ctx, i) => CardSurah(
+                  nama: data.items[i].nama,
+                  asma: data.items[i].asma,
+                  ayat: data.items[i].ayat,
+                  arti: data.items[i].arti,
+                  id: data.items[i].id,
+                ),
+              ),
             ),
-          ),
-        ),
-      ),
     );
   }
 }
@@ -83,12 +87,14 @@ class CardSurah extends StatelessWidget {
     this.asma,
     this.ayat,
     this.arti,
+    this.id,
   }) : super(key: key);
 
   final String nama;
   final String asma;
   final int ayat;
   final String arti;
+  final int id;
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +105,16 @@ class CardSurah extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             InkWell(
-              onTap: () => print(nama),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AyaPage(
+                    ayaName: nama,
+                    ayaNumber: ayat,
+                    surahNumber: id,
+                  ),
+                ),
+              ),
               child: Card(
                 elevation: 2,
                 shape: RoundedRectangleBorder(
